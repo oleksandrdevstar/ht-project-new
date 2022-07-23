@@ -128,6 +128,7 @@ jobs:
              exit 1
       - slack/notify:
           event: fail
+          channel: CircleCI-modifier
           template: basic_fail_1
 
   # deploy-infrastructure:
