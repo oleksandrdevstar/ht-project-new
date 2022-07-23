@@ -146,7 +146,7 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
-              --tags project=udapeople-backendinfra \
+              --tags project=udapeople \
               --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
               --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:7}
       - run:
@@ -154,16 +154,16 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
-              --tags project=udapeople-frontendinfra \
+              --tags project=udapeople \
               --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7} \
               --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:7}
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            echo $(aws ec2 describe-instances \
-            --query 'Reservations[*].instances[*].PublicIpAddress' \
-            --filters Name=tag:aws:cloudformation:stack-name,Values=udapeople-backend-${CIRCLECI_WORKFLOW_ID:07} \
-            --output text) >> ~/project/.circleci/ansible/inventory.txt
+            aws ec2 describe-instances \
+              --query 'Reservations[*].instances[*].PublicIpAddress' \
+              --filters Name=tag:project,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:07} \
+              --output text >> ~/project/.circleci/ansible/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
@@ -173,22 +173,23 @@ jobs:
 
   # configure-infrastructure:
   #   docker:
-  #     # Docker image here that supports Ansible
+  #     - image: python:3.8-alpine
   #   steps:
-  #     # Checkout code from git
-  #     # Add ssh keys with fingerprint
-  #     # attach workspace
+  #     - checkout
+  #     - add_ssh_keys:
+  #         fingerprints: ["1f:8f:09:0a:68:32:af:3d:18:f9:2a:b9:80:77:bf:9b"]
   #     - run:
   #         name: Install dependencies
   #         command: |
-  #           # Your code here
-  #           exit 1
+  #           apk add --update --no-cache tar gzip ansible aws-cli
+  #     - attach workspace:
+  #         at: ~/
   #     - run:
   #         name: Configure server
   #         command: |
   #           # Your code here
   #           exit 1
-  #     # Here's where you will add some code to rollback on failure
+      # Here's where you will add some code to rollback on failure
 
   # run-migrations:
   #   docker:
