@@ -197,6 +197,12 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
+      - run: 
+          name: Install dependencies
+          command: |
+            sudo apt install -y tar gzip aws-cli curl
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Run migrations
           command: |
