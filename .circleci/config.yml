@@ -30,7 +30,7 @@ commands:
           name: Revert migrations
           when: on_fail
           command: |
-            apk add --update
+            apk add --update curl
             SUCCESS=$(curl -k https://kvdb.io/8c4Dfsm42ZTgr2ZUnm9Hbj/migration_<<parameters.workflow_id>>)
             echo $SUCCESS
             if(( $SUCCESS==1 )); 
@@ -288,7 +288,7 @@ jobs:
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
       - revert-migrations:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}lback on failure
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   smoke-test:
     docker:
@@ -321,14 +321,14 @@ jobs:
             echo $URL
             if curl ${URL} | grep "Welcome";
             then 
-              return 1; 
+              return 0; 
             else 
               return 1; 
             fi
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
       - revert-migrations:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}lback on failure
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   # cloudfront-update:
   #   docker:
