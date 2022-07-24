@@ -3,7 +3,7 @@
   become: yes
   apt:
     upgrade: yes
-    update_cache: true
+    # update_cache: true
     cache_valid_time: 86400
 
 - name: Remove unuse dependencies
@@ -16,7 +16,7 @@
   apt: 
     name: ['nodejs', 'npm']
     state: latest
-    update_cahche: yes
+    # update_cahche: yes
 
 - name: Install pm2
   become: yes
