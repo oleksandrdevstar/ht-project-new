@@ -30,7 +30,7 @@ commands:
           name: Revert migrations
           when: on_fail
           command: |
-            # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
+            apk add --update
             SUCCESS=$(curl -k https://kvdb.io/8c4Dfsm42ZTgr2ZUnm9Hbj/migration_<<parameters.workflow_id>>)
             echo $SUCCESS
             if(( $SUCCESS==1 )); 
@@ -236,7 +236,7 @@ jobs:
           name: Get backend url
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances \
-            --filter Name=tag:project,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7 \
+            --filters Name=tag:project,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
             --query 'Reservation[*].Instances[*].PublicIpAddress' \
             --output text)
             export API_URL="http://${BACKEND_IP}:3030"
