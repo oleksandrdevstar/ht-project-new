@@ -426,7 +426,7 @@ workflows:
       - add-prometheus-node-exporter:
           requires: [deploy-infrastructure]
       - configure-infrastructure:
-          requires: [deploy-infrastructure, add-add-prometheus-node-exporter]
+          requires: [deploy-infrastructure, add-prometheus-node-exporter]
       - run-migrations:
           requires: [configure-infrastructure]
       - deploy-frontend:
