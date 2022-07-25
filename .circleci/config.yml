@@ -367,15 +367,12 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Get Old stack workflow id
+          name: Get Old stack workflow id and delete
           command: |
             export OldWorkflowID=<<pipeline.parameters.workflow_id>>
             export STACKS=$(aws cloudformation list-stacks \
             --query "StackSummaries[*].StackName" \
             --stack-status-filter CREATE_COMPLETE --no-paginate --output text)
-      - run:
-          name: Delete Old stacks and files
-          command: |
             if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
             then
               echo "-cleaning up stacks-"
@@ -438,5 +435,5 @@ workflows:
           requires: [deploy-backend, deploy-frontend]
       - cloudfront-update:
           requires: [smoke-test]
-      - cleanup:
-          requires: [cloudfront-update]
+      # - cleanup:
+      #     requires: [cloudfront-update]
