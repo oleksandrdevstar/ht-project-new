@@ -8,7 +8,6 @@ parameters:
     type: string
     default: ${CIRCLE_WORKFLOW_ID:0:7}
 
-
 commands:
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
