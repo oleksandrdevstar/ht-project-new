@@ -1,3 +1,4 @@
 URL01: https://github.com/therealJimoh/UdaPeople
-URL02: http://udapeople-2cec02b.s3-website-us-west-2.amazonaws.com/#/employees
+URL02: http://udapeople-cc8c5d4.s3-website-us-west-2.amazonaws.com/#/employees
+URL03: http://datp3e75yxkrl.cloudfront.net/#/employees
 
